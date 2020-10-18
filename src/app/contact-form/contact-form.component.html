@@ -1,0 +1,37 @@
+<div>
+  <h2>
+    <span *ngIf="isFavorite" class="favorite">&#9733;</span>
+    {{name}}
+  </h2>
+  <!--<h2>{{ contact.name }}</h2>-->
+  <ul>
+    <li>{{ email }}</li>
+    <li>{{ phone }}</li>
+  </ul>
+
+</div>
+
+<form [formGroup]="form"  (ngSubmit)="submit(form)">
+  <input type="text" name="name" placeholder="Name" formControlName="name"><br>
+  <p *ngIf="form.get('name').hasError('minLength')" class="error">Minimum 3 characters.</p>
+  <p *ngIf="form.get('name').hasError('required')" class="error">Required</p>
+
+  <input type="email" name="email"
+         placeholder="name@domain.com" formControlName="email"><br>
+  <p *ngIf="form.get('email').hasError('pattern')" class="error">Invalid email</p>
+  <p *ngIf="form.get('email').hasError('required')" class="error">Required</p>
+
+  <input type="tel" name="phone"
+         placeholder="Phone Number" formControlName="phone">
+  <p *ngIf="form.get('phone').hasError('minLength')" class="error">Minimum 9 characters</p>
+  <p *ngIf="form.get('phone').hasError('required')" class="error">Required</p>
+
+  <input type="text" name="avatar"
+           placeholder="avatar url" formControlName="avatar"><br>
+
+  <input type="checkbox" name="isFavorite" id="isFavorite" formControlName="isFavorite">
+  <label for="isFavorite">Favorite</label><br><br>
+
+  <button type="submit" [disabled]="form.invalid">Submit</button>
+
+</form>
