@@ -1,35 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { Contact } from './models/contact.model';
+import { ContactService } from './services/contact.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'contactApp';
-  myContact: Contact;
-  contactList: Contact[] = [
-    new Contact('jane doe', 'jane.doe@gmail.com', '011245585', true, 'assets/avatar.png'),
-    new Contact('Dries Swinnen', 'dries.swinnen@gmail.com', '011245585', true, 'assets/avatar.png'),
-    new Contact('Marijke Clijsters', 'marijke.clijsters@gmail.com', '089810800', true, 'assets/avatar.png')
-    ];
+  contactList: Contact[];
+  onlyFavorites = false;
 
-  ngOnInit(): void {
-    this.myContact = new Contact(
-      'John Doe',
-      'john.doe@gmail.com',
-      '0116642132558',
-      true,
-      'assets/avatar.png'
-    );
+  constructor(private service: ContactService) {
   }
 
-  handleData(event: Contact){
-    console.log('Received data!, event');
+  ngOnInit(): void {
+    this.fetchContactList(this.onlyFavorites);
+  }
+
+  fetchContactList(onlyFav: boolean): void {
+    this.service.getContactList(onlyFav).subscribe(data => {
+      this.contactList = data;
+    });
   }
 
   createContact(event: Contact){
-    this.contactList.push(event);
+    this.service.addContact(event).subscribe(() => this.fetchContactList(this.onlyFavorites));
+  }
+
+  handleUpdate(): void {
+    this.fetchContactList(this.onlyFavorites);
+  }
+
+  toggleView(onlyFav: boolean): void {
+    this.onlyFavorites = !onlyFav;
+    this.fetchContactList(this.onlyFavorites);
   }
 }

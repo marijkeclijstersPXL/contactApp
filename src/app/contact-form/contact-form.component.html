@@ -12,9 +12,9 @@
 </div>
 
 <form [formGroup]="form"  (ngSubmit)="submit(form)">
-  <input type="text" name="name" placeholder="Name" formControlName="name"><br>
-  <p *ngIf="form.get('name').hasError('minLength')" class="error">Minimum 3 characters.</p>
-  <p *ngIf="form.get('name').hasError('required')" class="error">Required</p>
+  <input type="text" name="name" placeholder="Name" formControlName="name">
+  <p *ngIf="form.get('name').hasError('minlength')" class="error">Minimum 3 characters.</p>
+  <p *ngIf="form.get('name').hasError('required')" class="error">Required</p><br>
 
   <input type="email" name="email"
          placeholder="name@domain.com" formControlName="email"><br>
@@ -23,7 +23,7 @@
 
   <input type="tel" name="phone"
          placeholder="Phone Number" formControlName="phone">
-  <p *ngIf="form.get('phone').hasError('minLength')" class="error">Minimum 9 characters</p>
+  <p *ngIf="form.get('phone').hasError('minlength')" class="error">Minimum 9 characters</p>
   <p *ngIf="form.get('phone').hasError('required')" class="error">Required</p>
 
   <input type="text" name="avatar"
